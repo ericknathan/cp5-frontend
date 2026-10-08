@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fio & Prensa</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <style type="text/tailwindcss">
+            @theme {
+                --color-background: #efe7d6;
+                --color-foreground: #2a241c;
+                --color-primary: #1b4332;
+                --color-secondary: #a9895f;
+                --color-tertiary: #9a3324;
+
+                --font-serif: "Fraunces", serif;
+                --font-sans: "Work Sans", sans-serif;
+            }
+        </style>
+    </head>
+    <body class="bg-background text-foreground font-sans">
+        <header
+            class="max-w-7xl px-6 mx-auto flex items-center justify-between gap-4 py-4 border-b border-secondary/50"
+        >
+            <a href="#inicio" class="font-serif text-2xl font-semibold">
+                Fio <span class="italic text-tertiary">&amp;</span> Prensa
+            </a>
+            <nav class="*:px-3 max-md:hidden">
+                <a href="#oficio" class="hover:underline">O ofício</a>
+                <a href="#oficio" class="hover:underline">Serviços</a>
+                <a href="#pecas" class="hover:underline">Peças</a>
+                <a href="#contato" class="hover:underline">Contato</a>
+            </nav>
+            <a
+                href="#contato"
+                class="bg-primary text-background font-semibold px-5 py-3 hover:bg-primary/85 transition-colors"
+            >
+                Agendar visita
+            </a>
+        </header>
+        <main>
+            <section
+                id="hero"
+                class="max-w-7xl px-4 mx-auto flex items-center justify-between max-md:flex-col gap-4 py-20"
+            >
+                <div class="md:max-w-md w-full grid gap-4">
+                    <h1 class="font-serif text-5xl font-semibold">
+                        Livros que se seguram nas mãos por gerações.
+                    </h1>
+                    <span
+                        >Costuramos, colamos e prensamos à mão - do caderno de
+                        uso diário à restauração de exemplares de família. Cada
+                        peça passa pelas mesmas quatro etapas que aprendemos há
+                        trinta anos.</span
+                    >
+                    <a
+                        class="border border-primary w-fit font-semibold text-primary h-12 px-5 cursor-pointer hover:bg-primary/10 transition-colors mt-4 flex items-center justify-center"
+                        href="#oficio"
+                    >
+                        Ver serviços
+                    </a>
+                </div>
+                <ul
+                    class="md:max-w-md w-full divide-y divide-secondary border-y border-secondary"
+                >
+                    <li class="flex items-center gap-2 py-4">
+                        <div class="bg-tertiary size-8"></div>
+                        <div class="grid">
+                            <strong>Linho belga, cor terracota</strong>
+                            <span class="text-sm opacity-75"
+                                >Capa dura, acabamento fosco</span
+                            >
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-2 py-4">
+                        <div class="bg-primary size-8"></div>
+                        <div class="grid">
+                            <strong>Percalux verde-musgo</strong>
+                            <span class="text-sm opacity-75"
+                                >Resistente à umidade</span
+                            >
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-2 py-4">
+                        <div class="bg-secondary size-8"></div>
+                        <div class="grid">
+                            <strong>Papel de guarda marmorizado</strong>
+                            <span class="text-sm opacity-75"
+                                >Feito à mão, padrão único</span
+                            >
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="oficio" class="bg-secondary/10 py-20">
+                <div class="max-w-7xl px-4 mx-auto">
+                    <h2 class="font-serif text-3xl font-semibold">
+                        O ofício, em quatro etapas
+                    </h2>
+                    <p class="my-6">
+                        Cada livro passa pela mesma sequência de trabalho, do
+                        primeiro caderno de págins soltas até a prensa final.
+                    </p>
+                    <ol
+                        class="grid grid-cols-4 divide-x divide-secondary max-md:grid-cols-1 max-md:divide-y max-md:divide-x-0"
+                    >
+                        <li class="grid gap-1 max-md:py-4 md:pr-4">
+                            <h3
+                                class="font-serif font-semibold text-2xl text-tertiary/90"
+                            >
+                                01
+                            </h3>
+                            <h4 class="font-serif font-semibold text-lg">
+                                Dobra
+                            </h4>
+                            <p>
+                                As folhas são dobradas em cadernos e organizadas
+                                na ordem de leitura
+                            </p>
+                        </li>
+                        <li class="grid gap-1 max-md:py-4 md:px-4">
+                            <h3
+                                class="font-serif font-semibold text-2xl text-tertiary/90"
+                            >
+                                02
+                            </h3>
+                            <h4 class="font-serif font-semibold text-lg">
+                                Costura
+                            </h4>
+                            <p>
+                                Os cadernos são costurados manualmente com fio
+                                encerado, ponto a ponto.
+                            </p>
+                        </li>
+                        <li class="grid gap-1 max-md:py-4 md:px-4">
+                            <h3
+                                class="font-serif font-semibold text-2xl text-tertiary/90"
+                            >
+                                03
+                            </h3>
+                            <h4 class="font-serif font-semibold text-lg">
+                                Colagem
+                            </h4>
+                            <p>
+                                O lombo recebe cola natural, que dá firmeza sem
+                                enxergar o papel.
+                            </p>
+                        </li>
+                        <li class="grid gap-1 max-md:py-4 md:pl-4">
+                            <h3
+                                class="font-serif font-semibold text-2xl text-tertiary/90"
+                            >
+                                04
+                            </h3>
+                            <h4 class="font-serif font-semibold text-lg">
+                                Personagem
+                            </h4>
+                            <p>
+                                O volume descansa na prensa por 24h para fixar a
+                                forma definitiva.
+                            </p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+            <section id="pecas" class="max-w-7xl px-4 mx-auto py-20">
+                <h2 class="font-serif text-3xl font-semibold mb-10">
+                    Peças recentes
+                </h2>
+                <div class="grid md:grid-cols-4 gap-4 h-156 md:h-96">
+                    <span
+                        class="bg-linear-to-tl from-secondary to-secondary/25 uppercase p-4 text-sm flex items-end col-span-2 row-span-2"
+                        >Caderno de campo</span
+                    >
+                    <span
+                        class="bg-linear-to-tl from-secondary to-secondary/25 uppercase p-4 text-sm flex items-end"
+                        >Restauro 1968</span
+                    >
+                    <span
+                        class="bg-linear-to-tl from-secondary to-secondary/25 uppercase p-4 text-sm flex items-end"
+                        >Álbum de casamento</span
+                    >
+                    <span
+                        class="bg-linear-to-tl from-secondary to-secondary/25 uppercase p-4 text-sm flex items-end col-span-2"
+                        >Edição Limitada, 12 exemplares</span
+                    >
+                </div>
+            </section>
+
+            <hr class="border-secondary/50" />
+
+            <section id="testemunho" class="max-w-7xl px-6 mx-auto py-16">
+                <figure class="border-l-2 border-tertiary pl-6 grid gap-5">
+                    <blockquote
+                        class="font-serif italic text-3xl font-medium max-w-xl"
+                    >
+                        Levei o diário do meu avô, que estava se desfazendo, e
+                        voltou como se tivesse sido feito ontem — mas ainda com
+                        a capa original.
+                    </blockquote>
+                    <figcaption class="text-sm">
+                        <strong class="font-semibold">Helena Mourão</strong>
+                        <span class="opacity-70">— cliente desde 2019</span>
+                    </figcaption>
+                </figure>
+            </section>
+        </main>
+        <footer id="contato" class="bg-primary text-background py-20">
+            <div class="max-w-7xl px-4 mx-auto">
+                <h1 class="font-serif text-4xl font-semibold mb-10">
+                    Visite o ateliê
+                </h1>
+                <div class="grid md:grid-cols-3">
+                    <div class="grid">
+                        <small class="text-xs capitalize opacity-75"
+                            >Endereço</small
+                        >
+                        <span
+                            >Rua dos Encadernadores, 214 - Lapa, São Paulo</span
+                        >
+                    </div>
+                    <div class="grid">
+                        <small class="text-xs capitalize opacity-75"
+                            >Horário</small
+                        >
+                        <span>Terça a sábado, 10h às 18h</span>
+                    </div>
+                    <div class="grid">
+                        <small class="text-xs capitalize opacity-75"
+                            >Contato</small
+                        >
+                        <span>contato@fioprensa.com.br</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
