@@ -1,0 +1,43 @@
+:root {
+    --primary: #9c6430;
+    --primary-dark: #7a4c22;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--primary-dark);
+    --bs-btn-hover-border-color: var(--primary-dark);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--primary-dark);
+    --bs-btn-active-border-color: var(--primary-dark);
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.hero-img {
+    background: linear-gradient(135deg, #eadfcd, #c8a473);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #c79a64, #7a5530);
+}
+
+#carouselDepoimentos .carousel-indicators [data-bs-target] {
+    width: 6px;
+    height: 6px;
+    border: 0;
+    border-radius: 50%;
+    background-color: #adb5bd;
+    opacity: 1;
+}
+
+#carouselDepoimentos .carousel-indicators .active {
+    background-color: var(--primary);
+}
