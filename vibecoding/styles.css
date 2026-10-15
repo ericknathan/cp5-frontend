@@ -1,0 +1,920 @@
+/*
+	Estilos do site do Lagum.
+
+	Os tokens (cores, fontes, easing) ficam no <style type="text/tailwindcss"> do index.html,
+	porque o Tailwind do CDN só compila CSS escrito dentro da página. Aqui é CSS puro que usa
+	esses tokens como variáveis (var(--color-ferrugem) etc.).
+
+	Raios (regra única da página):
+	- interativos (botões, chips, player): pílula
+	- fotos, vídeo e cards: 24px
+	- capas de disco: 4px, como uma capa de vinil
+	- retratos da banda: arco, como as curvas do Niemeyer
+	Camadas: nav 40 · player 50 · menu 60 · link de pular 70
+*/
+
+/* Mesma ordem de camadas do Tailwind: as classes utilitárias no HTML (h-11, hidden...) vencem os componentes daqui */
+@layer theme, base, components, utilities;
+
+@layer base {
+    html {
+        background: var(--color-papel);
+        color: var(--color-tinta);
+        -webkit-tap-highlight-color: transparent;
+    }
+    /* clip (e não hidden) corta o que vaza para os lados sem travar a rolagem vertical:
+       a página precisa rolar mesmo sem o Lenis (movimento reduzido ou CDN fora do ar) */
+    html,
+    body {
+        overflow-x: clip;
+    }
+    body {
+        font-family: var(--font-sans);
+    }
+    /* Com o player aberto, foco e âncoras param acima dele */
+    html.player-aberto {
+        scroll-padding-bottom: 7.5rem;
+    }
+    /* Rede de segurança caso o Tailwind do CDN não carregue */
+    [hidden] {
+        display: none !important;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    a,
+    button {
+        cursor: pointer;
+    }
+    section[id] {
+        scroll-margin-top: 72px;
+    }
+    h1,
+    h2,
+    h3 {
+        text-wrap: balance;
+    }
+    p {
+        text-wrap: pretty;
+    }
+    ::selection {
+        background: var(--color-ferrugem);
+        color: var(--color-papel);
+    }
+    :focus-visible {
+        outline: 2px solid var(--foco, var(--color-ferrugem));
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+}
+
+@layer components {
+    /* Áreas em terra (hero, faixa de cidades, datas da turnê, menu, rodapé): o foco vira limão */
+    .tema-escuro {
+        --foco: var(--color-limao);
+    }
+
+    /* Logos do sprite (<symbol> no topo do index.html): a cor vem do currentColor */
+    .marca {
+        display: block;
+        fill: currentColor;
+    }
+
+    .titulo-secao {
+        font-family: var(--font-display);
+        font-size: clamp(2.75rem, 6.4vw, 5.75rem);
+        line-height: 0.95;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        color: var(--color-tinta);
+        font-stretch: 82%;
+    }
+
+    /* ---------- Botões ---------- */
+    .btn-primario,
+    .btn-secundario,
+    .btn-limao,
+    .btn-claro,
+    .btn-ingresso {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition-property:
+            color, background-color, border-color, opacity, box-shadow,
+            transform, translate, scale;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease-saida);
+    }
+    .btn-primario:active,
+    .btn-secundario:active,
+    .btn-limao:active,
+    .btn-claro:active,
+    .btn-ingresso:active {
+        scale: 0.98;
+    }
+
+    .btn-primario,
+    .btn-secundario,
+    .btn-limao,
+    .btn-claro {
+        height: 3rem;
+        gap: 0.5rem;
+        padding-inline: 1.5rem;
+    }
+    .btn-primario {
+        background: var(--color-ferrugem);
+        color: var(--color-papel);
+    }
+    .btn-secundario {
+        border: 1px solid
+            color-mix(in oklab, var(--color-tinta) 45%, transparent);
+        color: var(--color-tinta);
+    }
+    /* Versões para o fundo terra */
+    .btn-limao {
+        background: var(--color-limao);
+        color: var(--color-tinta);
+        font-weight: 600;
+    }
+    .btn-claro {
+        border: 1px solid
+            color-mix(in oklab, var(--color-papel) 45%, transparent);
+        color: var(--color-papel);
+    }
+    .btn-ingresso {
+        height: 2.75rem;
+        gap: 0.375rem;
+        padding-inline: 1.25rem;
+        justify-self: start;
+        border: 1px solid var(--color-ferrugem);
+        font-size: 15px;
+        color: var(--color-ferrugem);
+    }
+    @media (width >= 40rem) {
+        .btn-ingresso {
+            justify-self: end;
+        }
+    }
+    @media (hover: hover) {
+        .btn-primario:hover {
+            background: var(--color-ferrugem-escuro);
+        }
+        .btn-secundario:hover {
+            border-color: var(--color-ferrugem);
+            color: var(--color-ferrugem);
+        }
+        .btn-ingresso:hover {
+            background: var(--color-ferrugem);
+            color: var(--color-papel);
+        }
+        .btn-limao:hover {
+            background: var(--color-papel);
+        }
+        .btn-claro:hover {
+            border-color: var(--color-limao);
+            color: var(--color-limao);
+        }
+    }
+    /* Ainda sem link: borda tracejada, para não parecer um botão desativado */
+    .btn-ingresso.is-breve {
+        cursor: default;
+        border-style: dashed;
+        border-color: color-mix(in oklab, var(--color-grafite) 55%, transparent);
+        color: var(--color-grafite);
+    }
+    .btn-ingresso.is-breve:hover {
+        background: transparent;
+        color: var(--color-grafite);
+    }
+    .btn-ingresso.is-breve:active {
+        scale: 1;
+    }
+
+    /* ---------- Filtros da agenda ---------- */
+    .chip {
+        display: inline-flex;
+        height: 2.75rem;
+        flex-shrink: 0;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid var(--color-linha);
+        border-radius: 9999px;
+        background: transparent;
+        padding-inline: 1rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        color: var(--color-tinta);
+        transition-property: color, background-color, border-color;
+        transition-duration: 300ms;
+        transition-timing-function: var(--ease-saida);
+    }
+    @media (hover: hover) {
+        .chip:hover {
+            border-color: var(--color-ferrugem);
+            color: var(--color-ferrugem);
+        }
+    }
+    .chip[aria-pressed="true"] {
+        border-color: var(--color-ferrugem);
+        background: var(--color-ferrugem);
+        color: var(--color-papel);
+    }
+    /* Chip da turnê: terra com um ponto limão, como as faixas da turnê na lista */
+    .chip-turne {
+        border-color: var(--color-tinta);
+        background: var(--color-tinta);
+        color: var(--color-papel);
+    }
+    .chip-turne::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: var(--color-limao);
+    }
+    @media (hover: hover) {
+        .chip-turne:hover {
+            border-color: var(--color-tinta);
+            color: var(--color-limao);
+        }
+    }
+    .chip-turne[aria-pressed="true"] {
+        border-color: var(--color-tinta);
+        background: var(--color-tinta);
+        color: var(--color-limao);
+        box-shadow:
+            0 0 0 2px var(--color-papel),
+            0 0 0 4px var(--color-limao);
+    }
+    .chip .chip-n {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        line-height: 1rem;
+        opacity: 0.7;
+    }
+
+    /* ---------- Links ---------- */
+    .nav-link {
+        position: relative;
+        padding-block: 0.25rem;
+        font-size: 15px;
+        font-weight: 500;
+        color: color-mix(in oklab, currentColor 80%, transparent);
+        transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -0.125rem;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        border-radius: 9999px;
+        background: var(--color-ferrugem);
+        transform-origin: left;
+        scale: 0 1;
+        transition: scale 500ms var(--ease-saida);
+    }
+    @media (hover: hover) {
+        .nav-link:hover {
+            color: inherit;
+        }
+    }
+    .nav-link:hover::after,
+    .nav-link[aria-current="true"]::after {
+        scale: 1 1;
+    }
+    .nav-link[aria-current="true"] {
+        color: inherit;
+    }
+
+    .rodape-link {
+        font-weight: 500;
+        color: var(--color-papel);
+        text-decoration-line: underline;
+        text-decoration-color: color-mix(in oklab, var(--color-papel) 30%, transparent);
+        text-underline-offset: 4px;
+        transition-property: color, text-decoration-color;
+        transition-duration: 150ms;
+    }
+    .rodape-link:hover {
+        color: var(--color-limao);
+        text-decoration-color: var(--color-limao);
+    }
+
+    /* O padding com margem negativa aumenta a área de toque sem mudar o espaço ocupado */
+    .link-seta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding-block: 0.75rem;
+        margin-block: -0.75rem;
+        font-weight: 500;
+        color: var(--color-ferrugem);
+        text-underline-offset: 4px;
+    }
+    @media (hover: hover) {
+        .link-seta:hover {
+            text-decoration-line: underline;
+        }
+    }
+}
+
+/* ---------- Topo ---------- */
+/* Sobre o hero (terra) o topo fica transparente, com marca em creme e limão; rolando, vira creme */
+#topo {
+    transition:
+        transform 0.6s var(--ease-saida),
+        background-color 0.4s,
+        color 0.4s,
+        box-shadow 0.4s;
+    color: var(--color-tinta);
+    background: rgb(249 250 229 / 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 var(--color-linha);
+}
+#topo .marca-ilha {
+    color: var(--color-ferrugem);
+    transition: color 0.4s;
+}
+#topo.is-topo {
+    --foco: var(--color-limao);
+    color: var(--color-papel);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+}
+#topo.is-topo .marca-ilha {
+    color: var(--color-limao);
+}
+#topo.is-topo .nav-link::after {
+    background: var(--color-limao);
+}
+#topo.is-topo .btn-primario {
+    background: var(--color-limao);
+    color: var(--color-tinta);
+}
+@media (hover: hover) {
+    #topo.is-topo .btn-primario:hover {
+        background: var(--color-papel);
+    }
+}
+#topo.is-oculto {
+    transform: translateY(-100%);
+}
+
+/* ---------- Logo em duas metades (LAG + UM) ---------- */
+.logo-duplo {
+    position: relative;
+    display: block;
+    aspect-ratio: 281 / 97;
+}
+.logo-mascara {
+    position: absolute;
+    inset: 0;
+}
+/* Cada metade é um SVG próprio (lag.svg / um.svg): a máscara só esconde o que está abaixo do logo,
+   de onde as letras sobem, com folga em cima e nos lados para a rotação da entrada */
+.logo-mascara {
+    clip-path: inset(-40% -15% 0 -15%);
+}
+.logo-mascara .marca {
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- Vinil (ferrugem, como uma edição colorida) ---------- */
+/* O disco gira dentro do círculo do .vinil (overflow: hidden): girando, a caixa quadrada do disco
+   cresceria até 41% e vazaria da tela, criando rolagem horizontal no celular */
+.vinil {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgb(38 25 16 / 0.7);
+}
+.vinil-disco {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        radial-gradient(
+            circle,
+            transparent 0 32%,
+            rgb(255 255 255 / 0.2) 32.4% 33%,
+            transparent 33.4% 47%,
+            rgb(255 255 255 / 0.09) 47.3% 47.8%,
+            transparent 48.2% 65%,
+            rgb(255 255 255 / 0.09) 65.3% 65.8%,
+            transparent 66.2%
+        ),
+        repeating-radial-gradient(circle, #7a2a05 0 1px, #9a3b0d 1.6px 2.6px),
+        var(--color-ferrugem);
+    box-shadow: inset 0 0 0 2px rgb(38 25 16 / 0.28);
+}
+.vinil-rotulo {
+    position: absolute;
+    inset: 33%;
+    border-radius: 9999px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 0 3px rgb(255 255 255 / 0.18);
+}
+.vinil-rotulo::after {
+    content: "";
+    position: absolute;
+    inset: 45%;
+    border-radius: 9999px;
+    background: var(--color-papel);
+    box-shadow: inset 0 1px 2px rgb(38 25 16 / 0.4);
+}
+.vinil::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: conic-gradient(
+        from 35deg,
+        transparent 0 7%,
+        rgb(255 255 255 / 0.26) 12%,
+        transparent 18% 50%,
+        rgb(255 255 255 / 0.18) 62%,
+        transparent 68%
+    );
+}
+/* O giro vem do script.js (--giro): pausa onde está e acompanha o arraste do tempo */
+.vinil-disco {
+    rotate: var(--giro, 0deg);
+}
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Hero ---------- */
+/* O logo da turnê entra da esquerda para a direita (clip-path no introHero); a folga deixa o "/" inteiro */
+.hero-turne {
+    clip-path: inset(-10% -4% -10% -4%);
+}
+.capa-disco {
+    position: relative;
+}
+/* Sem o Tailwind, a capa não pode ocupar a tela inteira */
+.capa-disco {
+    max-width: 460px;
+}
+.capa-disco .vinil-saida {
+    position: absolute;
+    top: 4%;
+    right: 4%;
+    width: 92%;
+    z-index: 0;
+    transform: translateX(34%);
+}
+
+/* ---------- Faixa de cidades ---------- */
+.faixa-trilho span {
+    display: inline-block;
+    padding-right: 0.5em;
+}
+
+/* ---------- Agenda ---------- */
+.show::before {
+    content: "";
+    position: absolute;
+    inset: 0 -1rem;
+    z-index: -1;
+    border-radius: 24px;
+    background: var(--color-nevoa);
+    transform: scaleY(0.6);
+    opacity: 0;
+    transition:
+        transform 0.5s var(--ease-saida),
+        opacity 0.3s;
+}
+@media (hover: hover) {
+    .show:hover::before {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    .show:hover .show-cidade {
+        transform: translateX(6px);
+    }
+}
+.show-cidade {
+    transition: transform 0.5s var(--ease-saida);
+}
+
+/* Datas da turnê Lagum em Todo Lugar: faixa terra com a cidade em limão, como no site oficial.
+   A faixa é o mesmo ::before do hover, só que sempre visível; o respiro em cima e embaixo
+   separa duas datas seguidas da turnê. */
+.show.is-turne {
+    --foco: var(--color-limao);
+    border-color: transparent;
+    color: var(--color-papel);
+}
+.show.is-turne::before {
+    inset: 0.3rem -1rem;
+    background: var(--color-tinta);
+    transform: none;
+    opacity: 1;
+    transition: background-color 0.3s;
+}
+@media (hover: hover) {
+    .show.is-turne:hover::before {
+        background: #35261b;
+    }
+}
+.show.is-turne .btn-ingresso {
+    border-color: var(--color-papel);
+    color: var(--color-papel);
+}
+@media (hover: hover) {
+    .show.is-turne .btn-ingresso:hover {
+        border-color: var(--color-limao);
+        background: var(--color-limao);
+        color: var(--color-tinta);
+    }
+}
+.show.is-turne .btn-ingresso.is-breve {
+    border-color: color-mix(in oklab, var(--color-papel) 45%, transparent);
+    background: transparent;
+    color: color-mix(in oklab, var(--color-papel) 75%, transparent);
+}
+
+/* ---------- Disco (faixas) ---------- */
+.faixa-botao::before {
+    content: "";
+    position: absolute;
+    inset: 0 -1rem;
+    z-index: -1;
+    border-radius: 24px;
+    background: var(--color-nevoa);
+    transform: scaleY(0.6);
+    opacity: 0;
+    transition:
+        transform 0.5s var(--ease-saida),
+        opacity 0.3s;
+}
+@media (hover: hover) {
+    .faixa-botao:hover::before {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    .faixa-botao:hover .faixa-icone {
+        background: var(--color-ferrugem);
+        border-color: var(--color-ferrugem);
+        color: var(--color-papel);
+    }
+}
+.faixa[data-estado] .faixa-botao::before {
+    transform: scaleY(1);
+    opacity: 1;
+}
+.faixa[data-estado] .faixa-titulo {
+    color: var(--color-ferrugem);
+}
+
+/* Prévia que falhou: aviso no próprio card ou linha, não só no player */
+.faixa-erro {
+    display: none;
+}
+[data-estado="erro"] .faixa-erro {
+    display: block;
+}
+[data-estado="erro"] .eq {
+    display: none;
+}
+
+/* ---------- Galeria (rastro de fotos) ---------- */
+/* Toda foto tem a mesma área: --escala é a raiz da proporção (vinda do script.js),
+   então as deitadas ficam mais largas e mais baixas que as em pé, sem uma parecer maior */
+.galeria-rastro {
+    --base: clamp(130px, 15vw, 230px);
+}
+.galeria-foto {
+    position: absolute;
+    width: calc(var(--base) * var(--escala, 1));
+    aspect-ratio: var(--proporcao, 1);
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 24px 48px -24px rgb(38 25 16 / 0.55);
+    transform-origin: center;
+    will-change: transform, opacity;
+}
+.galeria-dica {
+    transition: opacity 0.8s var(--ease-saida);
+}
+.galeria.is-ativa .galeria-dica {
+    opacity: 0;
+}
+.dica-cursor {
+    display: inline-flex;
+}
+.dica-toque {
+    display: none;
+}
+@media (hover: none), (pointer: coarse) {
+    .dica-cursor {
+        display: none;
+    }
+    .dica-toque {
+        display: inline-flex;
+    }
+}
+
+/* ---------- Banda ---------- */
+.duotone {
+    position: relative;
+    isolation: isolate;
+    background: var(--color-ferrugem);
+}
+.duotone img {
+    filter: grayscale(1) contrast(1.18) brightness(1.06);
+    mix-blend-mode: screen;
+}
+.arco {
+    border-radius: 9999px 9999px 24px 24px;
+    overflow: hidden;
+}
+.membro-nome {
+    font-stretch: 75%;
+}
+/* Folga em volta de cada letra para curvas (O, G), diagonais (A) e acentos (Ã) não serem cortados;
+   as margens negativas anulam quase toda a folga, deixando 0.05em de respiro entre as letras */
+.membro-nome .mascara {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0.3em 0.1em;
+    margin: -0.3em -0.075em;
+}
+.membro-nome .letra {
+    display: inline-block;
+}
+
+/* Pinado (desktop com movimento): os integrantes se sobrepõem no mesmo palco */
+.banda.is-pinned .banda-palco {
+    height: 100dvh;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.banda.is-pinned .membros {
+    position: absolute;
+    inset: 0;
+}
+.banda.is-pinned .membro {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+}
+.banda.is-pinned .membro-nome {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    z-index: 1;
+    margin: 0;
+    font-size: min(23vw, 44vh);
+    line-height: 0.8;
+}
+/* Mesmo nome na frente da foto, só com contorno branco (fundo transparente) */
+.membro-nome-contorno {
+    display: none;
+    pointer-events: none;
+}
+/* text-stroke desenharia as sobreposições internas da fonte (E, D, A, H); o filtro #contorno-externo
+   engorda a silhueta da letra e subtrai a letra original, sobrando só a borda de fora */
+.banda.is-pinned .membro-nome-contorno {
+    display: block;
+    z-index: 3;
+    color: var(--color-papel);
+    filter: url(#contorno-externo);
+}
+.banda.is-pinned .banda-indice {
+    display: block;
+    position: absolute;
+    left: 2rem;
+    bottom: 12vh;
+    z-index: 10;
+}
+.banda.is-pinned .banda-topo {
+    position: absolute;
+    top: 7rem;
+    left: 2rem;
+}
+.banda.is-pinned .membro-foto {
+    position: relative;
+    z-index: 2;
+    width: min(30vw, 54vh);
+    margin: 7vh 0 0;
+}
+.banda.is-pinned .membro-info {
+    position: absolute;
+    z-index: 3;
+    right: 2rem;
+    bottom: 12vh;
+    margin: 0;
+    text-align: right;
+}
+
+.banda-indice button[aria-current="true"] {
+    color: var(--color-ferrugem);
+}
+.banda-indice button[aria-current="true"]::before {
+    transform: scaleX(1);
+}
+.banda-indice button::before {
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 2px;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-saida);
+}
+
+/* ---------- Músicas ---------- */
+.musica-capa .vinil {
+    position: absolute;
+    inset: 4%;
+    z-index: 0;
+    transition: transform 0.8s var(--ease-saida);
+}
+@media (hover: hover) {
+    .musica-botao:hover .vinil {
+        transform: translateY(-20%);
+    }
+}
+.musica[data-estado] .vinil {
+    transform: translateY(-24%);
+}
+.eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+.eq i {
+    width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: currentColor;
+    transform-origin: bottom;
+    animation: eq 0.9s ease-in-out infinite;
+}
+.eq i:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.eq i:nth-child(3) {
+    animation-delay: -0.6s;
+}
+@keyframes eq {
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+[data-faixa]:not([data-estado]) .eq {
+    display: none;
+}
+[data-faixa]:not([data-estado="tocando"]) .eq i {
+    animation-play-state: paused;
+    transform: scaleY(0.3);
+}
+[data-faixa][data-estado="carregando"] .faixa-icone i {
+    animation: girar 1s linear infinite;
+}
+
+/* ---------- Player ---------- */
+/* A barra visível tem 3px, mas a área de toque do controle tem 20px de altura */
+#player {
+    transform: translate(-50%, 160%);
+    transition: transform 0.8s var(--ease-saida);
+}
+#player.is-aberto {
+    transform: translate(-50%, 0);
+}
+#player .vinil {
+    position: absolute;
+    transition: transform 0.8s var(--ease-saida);
+}
+#player:not(.is-aberto) .vinil {
+    transform: translateY(30%) rotate(-40deg);
+}
+.player-progresso {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    cursor: pointer;
+    background: linear-gradient(
+            to right,
+            var(--color-ferrugem) var(--progresso, 0%),
+            rgb(143 50 7 / 0.16) var(--progresso, 0%)
+        )
+        center / 100% 3px no-repeat;
+}
+.player-progresso::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: var(--color-ferrugem);
+    border: 2px solid var(--color-papel);
+    box-shadow: 0 1px 4px rgb(38 25 16 / 0.3);
+}
+.player-progresso::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: var(--color-ferrugem);
+    border: 2px solid var(--color-papel);
+}
+#player[data-estado="carregando"] .player-play i {
+    animation: girar 1s linear infinite;
+}
+
+/* ---------- Loja ---------- */
+.loja-carrossel {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+.loja-carrossel::-webkit-scrollbar {
+    display: none;
+}
+.loja-progresso {
+    width: var(--visivel, 25%);
+    transform: translateX(var(--deslocamento, 0%));
+    transition: transform 0.15s linear;
+}
+/* Desktop com movimento: a faixa inteira (introdução + produtos) é arrastada pelo scroll */
+.loja.is-panning {
+    padding-block: 0;
+}
+.loja.is-panning .loja-trilho {
+    height: 100dvh;
+    width: max-content;
+}
+.loja.is-panning .loja-vitrine {
+    flex: none;
+}
+.loja.is-panning .loja-carrossel {
+    overflow: visible;
+    scroll-snap-type: none;
+    padding: 0;
+}
+.loja.is-panning .loja-controles {
+    display: none;
+}
+
+/* ---------- Menu mobile ---------- */
+#menu-mobile {
+    transition:
+        clip-path 0.7s var(--ease-saida),
+        visibility 0s linear 0.7s;
+    clip-path: circle(0% at calc(100% - 2.5rem) 2.25rem);
+    visibility: hidden;
+}
+.menu-link {
+    transition: color 0.3s;
+}
+.menu-link:hover {
+    color: var(--color-limao);
+}
+#menu-mobile.is-aberto {
+    clip-path: circle(150% at calc(100% - 2.5rem) 2.25rem);
+    visibility: visible;
+    transition:
+        clip-path 0.7s var(--ease-saida),
+        visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
